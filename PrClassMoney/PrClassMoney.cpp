@@ -194,6 +194,7 @@ private:
 
 int main()
 {
+	setlocale(LC_ALL, "");
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	Money a;
