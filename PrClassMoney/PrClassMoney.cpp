@@ -24,36 +24,36 @@ public:
 		rubles = 0;
 		kopecks = 0;
 		sumM = 0;
-	};
-
-	Money(double sum, long rb, int kp)
+	}
+	
+	Money(double sum)
 	{
-		rubles = rb;
-		//точность 2 символа после запятой
-		if (kp >= 100)
-		{
-			rubles = rubles + kp / 100;
-			kopecks = (int)kopecks % 100;
-		}
-		else
-			kopecks = kp;
+		rubles = (int)sum;
+		//точность 3 символа после запятой
+		kopecks = (sum - (int)sum) * 1000;
+		if (kopecks % 10 == 9)
+			kopecks += 1;
+		//сокращаем до двух символов
+		kopecks = kopecks / 10;
+
 		//сохраняем сумму со знаком
 		if (sum < 0)
 			sumM = (-1)*(rubles + ((int)kopecks)*0.01);
 		else
 			sumM = rubles + ((int)kopecks)*0.01;
-
 	};
 
 	//ввод с клавиатуры
 	void Read()
 	{
 		cin >> sumM;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumM, &res_rub, &res_kop);
-		rubles = res_rub;
-		kopecks = res_kop;
+		rubles = (int)sumM;
+		//точность 3 символа после запятой
+		kopecks = (sumM - (int)sumM) * 1000;
+		if (kopecks % 10 == 9)
+			kopecks += 1;
+		//сокращаем до двух символов
+		kopecks = kopecks / 10;
 	}
 
 	//вывод на экран
@@ -85,55 +85,37 @@ public:
 	Money operator+ (Money m2)
 	{
 		double sumRes = sumM + m2.sumM;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumRes, &res_rub, &res_kop);
-		return Money(sumRes, res_rub, res_kop);
+		return Money(sumRes);
 	}
 
 	Money operator- (Money m2) 
 	{
 		double sumRes = sumM - m2.sumM;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumRes, &res_rub, &res_kop);
-		return Money(sumRes, res_rub, res_kop);
+		return Money(sumRes);
 	}
 
 	Money operator/ (Money m2)
 	{
 		double sumRes = sumM / m2.sumM;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumRes, &res_rub, &res_kop);
-		return Money(sumRes, res_rub, res_kop);
+		return Money(sumRes);
 	}
 
 	Money operator/ (double sumM2)
 	{
 		double sumRes = sumM / sumM2;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumRes, &res_rub, &res_kop);
-		return Money(sumRes, res_rub, res_kop);
+		return Money(sumRes);
 	}
 	
 	Money operator* (Money m2)
 	{
 		double sumRes = sumM * m2.sumM;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumRes, &res_rub, &res_kop);
-		return Money(sumRes, res_rub, res_kop);
+		return Money(sumRes);
 	}
 
 	Money operator* (double sumM2)
 	{
 		double sumRes = sumM * sumM2;
-		long res_rub;
-		int res_kop;
-		SplitUp(sumRes, &res_rub, &res_kop);
-		return Money(sumRes, res_rub, res_kop);
+		return Money(sumRes);
 	}
 
 	bool operator== (Money m2) const
@@ -174,21 +156,6 @@ private:
 	long rubles;
 	unsigned char kopecks;
 	double sumM;
-
-	//выделение рублей и копеек из их суммы 
-	void SplitUp(double sum, long* rb, int* kp)
-	{
-		*rb = (int)sum;
-		//точность 3 символа после запятой
-		*kp = (sum - (int)sum) * 1000;
-		if (*kp < 0)
-			*kp *= -1;
-		if (*kp % 10 == 9)
-			//++*kp;
-			*kp += 1;
-		//сокращаем до двух символов
-		*kp = *kp / 10;
-	}
 
 };
 
